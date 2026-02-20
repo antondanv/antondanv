@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/antondanv">
-    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=23&duration=3000&pause=900&color=38BDF8&center=true&vCenter=true&width=900&lines=Programming+and+Information+Systems;Commercial+web+development+(HTML%2FCSS%2FJS);Python+automation+%7C+Telegram+bots+%7C+AI+workflows" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=23&duration=3000&pause=900&color=38BDF8&center=true&vCenter=true&width=900&lines=Programming+and+Information+Systems;Commercial+web+development+(HTML%2FCSS);Python+automation+%7C+Telegram+bots+%7C+AI+workflows" alt="Typing SVG" />
   </a>
 </p>
 
@@ -26,17 +26,17 @@
 
 <p>
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=html,css,js,python,docker,git,github,linux,vscode&perline=8" alt="Tech stack" />
+    <img src="https://skillicons.dev/icons?i=html,css,python,git,github,linux,vscode&perline=8" alt="Tech stack" />
   </a>
 </p>
 
 ## Core Skills
 
-- Commercial website development and support using `HTML`, `CSS`, and `JavaScript`.
+- Commercial website development and support using `HTML` and `CSS`.
 - Building and supporting web resources and integrations for business needs.
 - Python automation and parsing scripts for competitor price analysis (10+ scripts, from 4 hours to 15 minutes).
 - Telegram bots with `aiogram` for information and feedback workflows.
-- AI solutions with `n8n`, `OpenAI API`, and local `Ollama` deployments.
+- AI solutions with `n8n`, `OpenAI Agents SDK`, `CrewAI`, and `LangGraph`.
 
 ## Achievements
 
