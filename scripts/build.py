@@ -239,7 +239,7 @@ class Session:
         self.t = done + 0.05
         self.row += 1
 
-    def wait(self, hold=60.0, per_char=0.09):
+    def wait(self, hold=300.0, per_char=0.09):
         """The last prompt: the cursor blinks on it for a while, then `clear` empties the screen.
 
         The whole session loops. Firefox keeps an animated image running across reloads instead of
@@ -518,7 +518,7 @@ def build(stats):
     total = s.t
 
     def animate(attr, events, pick):
-        times = ';'.join(f'{min(t / total, 1):.4f}' for t, _ in events)
+        times = ';'.join(f'{min(t / total, 1):.6f}' for t, _ in events)
         values = ';'.join(n(pick(v)) for _, v in events)
         return (f'<animate attributeName="{attr}" dur="{total:.2f}s" repeatCount="indefinite" calcMode="discrete" '
                 f'keyTimes="{times}" values="{values}"/>')
