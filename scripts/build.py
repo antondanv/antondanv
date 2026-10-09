@@ -11,9 +11,11 @@ load fonts; tree connectors, dots and bars are drawn on the character grid.
 """
 
 import datetime as dt
+import hashlib
 import json
 import math
 import os
+import re
 import subprocess
 import urllib.request
 from pathlib import Path
@@ -535,11 +537,20 @@ def build(stats):
     )
 
 
+RAW = f'https://raw.githubusercontent.com/{LOGIN}/{LOGIN}/main/assets/terminal.svg'
+
+
 def main():
     ASSETS.mkdir(exist_ok=True)
     svg = build(summarize(fetch()))
     (ASSETS / 'terminal.svg').write_text(svg)
-    print(f'terminal.svg {len(svg) / 1024:.1f} KB, {COLS} columns')
+    # GitHub lets browsers keep an image for five minutes; a new address for every new picture
+    # (an absolute URL goes through GitHub's image proxy, query and all) shows it at once
+    version = hashlib.sha1(svg.encode()).hexdigest()[:10]
+    readme = HERE.parent / 'README.md'
+    text = re.sub(r'src="[^"]*terminal\.svg[^"]*"', f'src="{RAW}?v={version}"', readme.read_text())
+    readme.write_text(text)
+    print(f'terminal.svg {len(svg) / 1024:.1f} KB, {COLS} columns, v={version}')
 
 
 if __name__ == '__main__':
