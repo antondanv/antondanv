@@ -239,7 +239,7 @@ class Session:
         self.t = done + 0.05
         self.row += 1
 
-    def wait(self, hold=40.0, per_char=0.09):
+    def wait(self, hold=60.0, per_char=0.09):
         """The last prompt: the cursor blinks on it for a while, then `clear` empties the screen.
 
         The whole session loops. Firefox keeps an animated image running across reloads instead of
