@@ -86,7 +86,7 @@ SKILLS = [
         ('sirius-college', 'Programming and Information Systems', 'active'),
     ]),
     ('next', [
-        ('sber-internship', 'AI agent developer intern at Sber', 'active'),
+        ('internship', 'AI agent developer intern', 'active'),
     ]),
 ]
 STATUS = {'done': 'green', 'active': 'blue', 'waiting': 'amber'}
@@ -370,7 +370,7 @@ def neofetch(s, stats):
         [('Activity', 'green', True), (f': {stats["total"]} contributions in the last year', 'text', False)],
         [('Streak', 'green', True), (f': {plural(stats["longest"], "day")}, best day {stats["best"]}', 'text', False)],
         [('Stars', 'green', True), (f': {stats["stars"]} across {stats["repos"]} public repos', 'text', False)],
-        [('Status', 'green', True), (': ', 'text', False), ('AI agent developer intern at Sber', 'amber', False)],
+        [('Status', 'green', True), (': ', 'text', False), ('AI agent developer intern', 'amber', False)],
         [],
     ]
     info_col = ART_COLS + 4
@@ -540,7 +540,7 @@ def build(stats):
     )
     label = (
         f'A terminal session about {LOGIN}: college student at Sirius College, Russia, Programming and Information '
-        f'Systems; builds AI agents, automation and websites; AI agent developer intern at Sber; {stats["total"]} contributions in '
+        f'Systems; builds AI agents, automation and websites; AI agent developer intern; {stats["total"]} contributions in '
         f'the last year, {stats["stars"]} stars.'
     )
     defs = ''.join(f'<path id="{key}" d="{d}"/>' for key, d in s.defs.items())
