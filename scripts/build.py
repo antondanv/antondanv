@@ -466,7 +466,7 @@ def build(stats):
     s.command('cat about.md')
     about(s)
     s.blank()
-    s.command('tree skills')
+    s.command('cd skills && treeyard')
     skills(s)
     s.blank()
     s.command('ls stack/')
