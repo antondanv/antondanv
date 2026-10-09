@@ -239,11 +239,25 @@ class Session:
         self.t = done + 0.05
         self.row += 1
 
-    def wait(self):
-        """The last prompt, with the cursor left blinking on it."""
-        self.body.append(self.prompt())
-        self.typing.append((self.t, (row_top(self.row), cx(PROMPT_COLS))))
-        self.cursor.append((self.t, (cx(PROMPT_COLS), cursor_y(self.row), 1)))
+    def wait(self, hold=40.0, per_char=0.09):
+        """The last prompt: the cursor blinks on it for a while, then `clear` empties the screen.
+
+        The whole session loops. Firefox keeps an animated image running across reloads instead of
+        starting it over, so a loop is the only way a reload there ever shows the typing again.
+        """
+        top, cy = row_top(self.row), cursor_y(self.row)
+        self.body.append(self.prompt() + self.text(PROMPT_COLS, 'clear', 'text'))
+        self.typing.append((self.t, (top, cx(PROMPT_COLS))))
+        self.cursor.append((self.t, (cx(PROMPT_COLS), cy, 1)))
+        self.t += hold
+        for j in range(len('clear')):
+            self.typing.append((self.t + j * per_char, (top, cx(PROMPT_COLS + j + 1))))
+            self.cursor.append((self.t + j * per_char, (cx(PROMPT_COLS + j + 1), cy, 1)))
+        self.t += len('clear') * per_char + 0.3
+        self.printed.append((self.t, 0.0))
+        self.typing.append((self.t, (0.0, 0.0)))
+        self.cursor.append((self.t, (cx(PROMPT_COLS), cursor_y(0), 0)))
+        self.t += 0.4  # a blank screen for a moment, then it all starts again
         self.row += 1
 
     def dot(self, col, color, hollow=False, r=4.4):
@@ -501,12 +515,12 @@ def build(stats):
         + ''.join(f'<circle cx="{22 + i * 20}" cy="{BAR / 2}" r="6" fill="{C["border"]}"/>' for i in range(3))
         + f'<g fill="{C["muted"]}" transform="translate({n((W - title_w) / 2)} {n(BAR / 2 + 4.6)}) scale({k:.5f} {-k:.5f})">{"".join(uses)}</g>'
     )
-    total = s.t + 0.05
+    total = s.t
 
     def animate(attr, events, pick):
         times = ';'.join(f'{min(t / total, 1):.4f}' for t, _ in events)
         values = ';'.join(n(pick(v)) for _, v in events)
-        return (f'<animate attributeName="{attr}" dur="{total:.2f}s" fill="freeze" calcMode="discrete" '
+        return (f'<animate attributeName="{attr}" dur="{total:.2f}s" repeatCount="indefinite" calcMode="discrete" '
                 f'keyTimes="{times}" values="{values}"/>')
 
     # with no animation the full height shows everything, and the typing rect stays empty
@@ -515,13 +529,13 @@ def build(stats):
         f'<rect width="0" height="{n(LH)}">{animate("y", s.typing, lambda v: v[0])}'
         f'{animate("width", s.typing, lambda v: v[1])}</rect></clipPath>'
     )
-    last = s.cursor[-1][1]
+    last = next(v for _, v in reversed(s.cursor) if v[2])  # the final prompt, for a browser with no SMIL
     cursor = (
         f'<rect x="{n(last[0] + 1)}" y="{n(last[1])}" width="{n(CW - 1)}" height="{n(FS * 1.08)}" '
         f'fill="{C["green"]}" fill-opacity=".85">'
         f'{animate("x", s.cursor, lambda v: v[0] + 1)}{animate("y", s.cursor, lambda v: v[1])}'
         f'{animate("opacity", s.cursor, lambda v: v[2])}'
-        f'<animate attributeName="fill-opacity" values=".85;0" dur="1.1s" begin="{total:.2f}s" '
+        f'<animate attributeName="fill-opacity" values=".85;0" dur="1.1s" '
         f'repeatCount="indefinite" calcMode="discrete"/></rect>'
     )
     label = (
